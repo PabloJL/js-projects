@@ -2,7 +2,7 @@ export const PROJECTS = [
   {
     slug: "01-tinder-swipe",
     title: "Tinder Swipe",
-    hidden: false,
+    hidden: true,
     description:
       "Aprende a crear el efecto de swipe de Tinder con HTML, CSS y JavaScript.",
     learnings: [
@@ -15,6 +15,7 @@ export const PROJECTS = [
   {
     slug: "02-arkanoid-game",
     title: "Arkanoid Game",
+    hidden: true,
     description:
       "Juego mítico y clásico de Arkanoid para controlar con teclado",
     learnings: [
@@ -27,6 +28,7 @@ export const PROJECTS = [
   {
     slug: "03-midu-typing-game",
     title: "Reto de Mecanografía",
+    hidden: true,
     description: "Pon a prueba tus habilidades de mecanografía con este reto",
     learnings: [
       "DOM",
@@ -41,6 +43,7 @@ export const PROJECTS = [
   {
     slug: "04-chatgpt-local",
     title: "ChatGPT local",
+    hidden: true,
     description: "Usa IA de forma local y gratis. 100% privacidad.",
     learnings: ["Web Workers", "IA", "ESModules"],
     theme: {
@@ -50,6 +53,7 @@ export const PROJECTS = [
   {
     slug: "05-api-geo-ip",
     title: "Buscar info de IP",
+    hidden: true,
     description:
       "Llama a una API para obtener información de cualquier IP y muestra la información en pantalla",
     learnings: ["Fetch API", "Formularios", "Asincronía"],
@@ -60,6 +64,7 @@ export const PROJECTS = [
   {
     slug: "06-tetris-canvas",
     title: "Tetris en Canvas",
+    hidden: true,
     description:
       "Resolvemos una prueba técnica que te propone crear el Tetris en 40 minutos",
     learnings: ["Canvas", "Eventos de teclado", "Lógica de programación"],
@@ -70,6 +75,7 @@ export const PROJECTS = [
   {
     slug: "07-tier-maker",
     title: "Tier Maker",
+    hidden: true,
     description:
       "Arrastra y suelta las imágenes para crear tus propias listas de niveles",
     learnings: ["Drag & Drop", "Input de imágenes", "CSS Custom Properties"],
