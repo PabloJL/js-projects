@@ -57,7 +57,7 @@
 
     header {
       display: flex;
-      justify-content: start;
+      justify-content: center;
       padding-left: 1rem;
 
       & img {
@@ -257,4 +257,94 @@
       </section>
     </main>
   </body>
+  <script>
+    const DECISION_THRESHOLD = 75;
+    let isAnimating = false;
+    let pullDeltaX = 0; //distancia que la card se mueve.
+
+    function startDrag(e) {
+      if (isAnimating) return;
+
+      //get first element
+      const actualCard = e.target.closest("article");
+      if (!actualCard) return;
+
+      //get initial position of mouse or finger
+      const startX = e.pageX ?? e.touches[0].pageX;
+
+      //listen movements
+      document.addEventListener("mousemove", onMove);
+      document.addEventListener("mouseup", onEnd);
+
+      document.addEventListener("touchmove", onMove, { passive: true });
+      document.addEventListener("touchend", onEnd, { passive: true });
+
+      function onMove(e) {
+        const currentX = e.pageX ?? e.touches[0].pageX;
+        //distance between
+        pullDeltaX = currentX - startX;
+        if (pullDeltaX === 0) return;
+
+        isAnimating = true;
+
+        const deg = pullDeltaX / 14;
+
+        actualCard.style.transform = `translateX(${pullDeltaX}px) rotate(${deg}deg)`;
+        actualCard.style.cursor = "grabbing";
+
+        const opacity = Math.abs(pullDeltaX) / 100;
+        const isRight = pullDeltaX > 0;
+
+        const choiceEl = isRight
+          ? actualCard.querySelector(".choice.like")
+          : actualCard.querySelector(".choice.nope");
+
+        choiceEl.style.opacity = opacity;
+      }
+
+      function onEnd(e) {
+        document.removeEventListener("mousemove", onMove);
+        document.removeEventListener("mouseup", onEnd);
+
+        document.removeEventListener("touchmove", onMove);
+        document.removeEventListener("touchend", onEnd);
+
+        //saber si el usuario tomo una decision
+        const decisionMade = Math.abs(pullDeltaX) >= DECISION_THRESHOLD;
+
+        if (decisionMade) {
+          const goRight = pullDeltaX >= 0;
+          const goLeft = !goRight;
+
+          actualCard.classList.add(goRight ? "go-right" : "go-left");
+          actualCard.addEventListener("transitionend", () => {
+            actualCard.remove();
+          });
+        } else {
+          actualCard.classList.add("reset");
+          actualCard.classList.remove("go-right", "go-left");
+
+          actualCard.querySelectorAll(".choice").forEach((choice) => {
+            choice.style.opacity = 0;
+          });
+        }
+        // reset the variables
+        actualCard.addEventListener("transitionend", () => {
+          actualCard.removeAttribute("style");
+          actualCard.classList.remove("reset");
+
+          pullDeltaX = 0;
+          isAnimating = false;
+        });
+
+        // reset the choice info opacity
+        actualCard
+          .querySelectorAll(".choice")
+          .forEach((el) => (el.style.opacity = 0));
+      }
+    }
+
+    document.addEventListener("mousedown", startDrag);
+    document.addEventListener("touchstart", startDrag, { passive: true });
+  </script>
 </html>
