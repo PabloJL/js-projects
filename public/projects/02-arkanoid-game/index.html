@@ -32,12 +32,76 @@
     canvas.width = 448;
     canvas.height = 400;
 
-    //Variables del juego
+    //Game variables
     let counter = 0;
 
+    //Ball variables
+    const ballRadius = 4;
+    let x = canvas.width / 2;
+    let y = canvas.height - 30;
+    let dx = 2;
+    let dy = -2;
+
+    //Pallet Variables
+    const paddleHeight = 10;
+    const paddleWidth = 70;
+    let paddleX = (canvas.width - paddleWidth) / 2;
+    let paddleY = canvas.height - paddleHeight - 10;
+
+    function drawBall() {
+      ctx.beginPath();
+      ctx.arc(x, y, ballRadius, 0, Math.PI * 2);
+      ctx.fillStyle = "#fff";
+      ctx.fill();
+      ctx.closePath();
+    }
+
+    function drawPaddle() {
+      ctx.fillStyle = "#09f";
+      ctx.fillRect(paddleX, paddleY, paddleWidth, paddleHeight);
+    }
+
+    function drawBricks() {}
+
+    function collisionDetection() {}
+
+    function ballMovement() {
+      if (x + dx > canvas.width - ballRadius || x + dx < ballRadius) {
+        //side walls
+        dx = -dx;
+      } else if (y + dy < ballRadius) {
+        dy = -dy;
+      }
+      if (y + dy > canvas.height - ballRadius) {
+        console.log("game over");
+        document.location.reload();
+      }
+      x += dx;
+      y += dy;
+    }
+
+    function paddleMovement() {}
+
+    function cleanCanvas() {
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+    }
+
     function draw() {
+      cleanCanvas();
+      //Draw elements
+      drawBall();
+      drawPaddle();
+      drawBricks();
+      //drawScore()
+
+      //Collisions and movements
+      collisionDetection();
+      ballMovement();
+      paddleMovement();
       //Recursivo, se llama a si mismo. Se ejecuta antes de que se repinte la pantalla.
       window.requestAnimationFrame(draw);
     }
+
+    draw();
   </script>
 </html>
