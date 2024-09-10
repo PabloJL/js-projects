@@ -24,11 +24,16 @@
 
   <body>
     <canvas></canvas>
+
+    <img hidden id="sprite" src="./sprite.png" alt="Sprite Arkanoid" />
+    <img hidden id="bricks" src="./bricks.png" alt="Sprite Bricks Arkanoid" />
   </body>
   <script>
     const canvas = document.querySelector("canvas");
     const ctx = canvas.getContext("2d");
 
+    const $sprite = document.querySelector("#sprite");
+    const $bricks = document.querySelector("#bricks");
     canvas.width = 448;
     canvas.height = 400;
 
@@ -44,9 +49,12 @@
 
     //Pallet Variables
     const paddleHeight = 10;
-    const paddleWidth = 70;
+    const paddleWidth = 50;
     let paddleX = (canvas.width - paddleWidth) / 2;
     let paddleY = canvas.height - paddleHeight - 10;
+
+    let rightPressed = false;
+    let leftPressed = false;
 
     function drawBall() {
       ctx.beginPath();
@@ -57,8 +65,17 @@
     }
 
     function drawPaddle() {
-      ctx.fillStyle = "#09f";
-      ctx.fillRect(paddleX, paddleY, paddleWidth, paddleHeight);
+      ctx.drawImage(
+        $sprite,
+        29,
+        174,
+        paddleWidth,
+        paddleHeight,
+        paddleX,
+        paddleY,
+        70,
+        paddleHeight
+      );
     }
 
     function drawBricks() {}
@@ -69,10 +86,16 @@
       if (x + dx > canvas.width - ballRadius || x + dx < ballRadius) {
         //side walls
         dx = -dx;
-      } else if (y + dy < ballRadius) {
+      }
+      if (y + dy < ballRadius) {
         dy = -dy;
       }
-      if (y + dy > canvas.height - ballRadius) {
+
+      const isBallSameXAsPaddle = x > paddleX && x < paddleX + paddleWidth;
+      const isBallTouchingPaddle = y + dy > paddleY;
+      if (isBallSameXAsPaddle && isBallTouchingPaddle) {
+        dy = -dy;
+      } else if (y + dy > canvas.height - ballRadius) {
         console.log("game over");
         document.location.reload();
       }
@@ -80,12 +103,39 @@
       y += dy;
     }
 
-    function paddleMovement() {}
+    function paddleMovement() {
+      if (rightPressed && paddleX < canvas.width - paddleWidth) {
+        paddleX += 4;
+      } else if (leftPressed && paddleX > 0) {
+        paddleX -= 4;
+      }
+    }
 
     function cleanCanvas() {
       ctx.clearRect(0, 0, canvas.width, canvas.height);
     }
 
+    function initEvents() {
+      document.addEventListener("keydown", keyDownHandler);
+      document.addEventListener("keyup", keyUpHandler);
+
+      function keyDownHandler(e) {
+        const { key } = e;
+        if (key === "Right" || key === "ArrowRight") {
+          rightPressed = true;
+        } else if (key === "Left" || key === "ArrowLeft") {
+          leftPressed = true;
+        }
+      }
+      function keyUpHandler(e) {
+        const { key } = e;
+        if (key === "Right" || key === "ArrowRight") {
+          rightPressed = false;
+        } else if (key === "Left" || key === "ArrowLeft") {
+          leftPressed = false;
+        }
+      }
+    }
     function draw() {
       cleanCanvas();
       //Draw elements
@@ -103,5 +153,6 @@
     }
 
     draw();
+    initEvents();
   </script>
 </html>
