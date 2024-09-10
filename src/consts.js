@@ -15,7 +15,7 @@ export const PROJECTS = [
   {
     slug: "02-arkanoid-game",
     title: "Arkanoid Game",
-    hidden: true,
+    hidden: false,
     description:
       "Juego mítico y clásico de Arkanoid para controlar con teclado",
     learnings: [
