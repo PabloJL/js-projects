@@ -62,9 +62,31 @@
     const brickWidth = 30;
     const brickHeight = 14;
     const brickPadding = 2;
-    const brickOffsetTop = 80;
-    const brickOffsetLeft = 30;
+    const brickOffsetTop = 60;
+    const brickOffsetLeft = 16;
     const bricks = [];
+
+    const BRICK_STATUS = {
+      ACTIVE: 1,
+      DESTROYED: 0,
+    };
+
+    for (let c = 0; c < brickColumnCount; c++) {
+      bricks[c] = [];
+      for (let r = 0; r < brickRowCount; r++) {
+        //calc brick position on screen
+        const brickX = c * (brickWidth + brickPadding) + brickOffsetLeft;
+        const brickY = r * (brickHeight + brickPadding) + brickOffsetTop;
+
+        const random = Math.floor(Math.random() * 8);
+        bricks[c][r] = {
+          x: brickX,
+          y: brickY,
+          status: BRICK_STATUS.ACTIVE,
+          color: random,
+        };
+      }
+    }
 
     function drawBall() {
       ctx.beginPath();
@@ -88,7 +110,27 @@
       );
     }
 
-    function drawBricks() {}
+    function drawBricks() {
+      for (let c = 0; c < brickColumnCount; c++) {
+        for (let r = 0; r < brickRowCount; r++) {
+          const currentBrick = bricks[c][r];
+          if ((currentBrick.status = BRICK_STATUS.DESTROYED)) continue;
+
+          const clipX = currentBrick.color * 32;
+          ctx.drawImage(
+            $bricks,
+            clipX,
+            0,
+            32,
+            14,
+            currentBrick.x,
+            currentBrick.y,
+            brickWidth,
+            brickHeight
+          );
+        }
+      }
+    }
 
     function collisionDetection() {}
 
@@ -106,7 +148,6 @@
       if (isBallSameXAsPaddle && isBallTouchingPaddle) {
         dy = -dy;
       } else if (y + dy > canvas.height - ballRadius) {
-        console.log("game over");
         document.location.reload();
       }
       x += dx;
