@@ -26,9 +26,9 @@ export const PROJECTS = [
     ],
   },
   {
-    slug: "03-midu-typing-game",
+    slug: "03-typing-game",
     title: "Reto de Mecanografía",
-    hidden: true,
+    hidden: false,
     description: "Pon a prueba tus habilidades de mecanografía con este reto",
     learnings: [
       "DOM",
