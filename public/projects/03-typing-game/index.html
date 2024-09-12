@@ -142,11 +142,58 @@
   <body>
     <main>
       <section id="game">
-        <time>30</time>
-        <paragraph></paragraph>
+        <time></time>
+        <p></p>
         <input type="text" autofocus />
       </section>
     </main>
   </body>
-  <script></script>
+  <script>
+    const $time = document.querySelector("time");
+    const $paragraph = document.querySelector("p");
+    const $input = document.querySelector("input");
+
+    const INITIAL_TIME = 30;
+
+    const TEXT =
+      "Lorem ipsum dolor, sit amet consectetur adipisicing elit. Recusandae eos iste quibusdam. Cumque similique accusantium, dolor dolores, nostrum veritatis alias rerum, itaque saepe nihil delectus. Sit fugit sint nulla a";
+
+    let words = [];
+    let currentTime = INITIAL_TIME;
+
+    initGame();
+    initEvents();
+
+    function initGame() {
+      words = TEXT.split(" ").slice(0, 32);
+      currentTime = INITIAL_TIME;
+
+      $time.textContent = currentTime;
+      $paragraph.innerHTML = words
+        .map((word, index) => {
+          const letters = word.split("");
+          return `<word>
+            ${letters.map((letter) => `<letter>${letter}</letter>`).join("")}
+            </word>`;
+        })
+        .join("");
+
+      const $firstWord = $paragraph.querySelector("word");
+      $firstWord.classList.add("active");
+      $firstWord.querySelector("letter").classList.add("active");
+
+      const intervalId = setInterval(() => {
+        currentTime--;
+        $time.textContent = currentTime;
+
+        if (currentTime === 0) {
+          clearInterval(intervalId);
+          gameOver();
+        }
+      }, 1000);
+    }
+    function initEvents() {}
+
+    function gameOver() {}
+  </script>
 </html>
