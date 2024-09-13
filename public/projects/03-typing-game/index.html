@@ -146,17 +146,18 @@
         <p></p>
         <input type="text" autofocus />
       </section>
+      <section id="results">
+        <h2></h2>
+      </section>
     </main>
   </body>
-  <script>
+  <script type="module">
+    import { words as INITIAL_WORDS } from "./data.js";
     const $time = document.querySelector("time");
     const $paragraph = document.querySelector("p");
     const $input = document.querySelector("input");
 
     const INITIAL_TIME = 30;
-
-    const TEXT =
-      "Lorem ipsum dolor, sit amet consectetur adipisicing elit. Recusandae eos iste quibusdam. Cumque similique accusantium, dolor dolores, nostrum veritatis alias rerum, itaque saepe nihil delectus. Sit fugit sint nulla a";
 
     let words = [];
     let currentTime = INITIAL_TIME;
@@ -165,7 +166,7 @@
     initEvents();
 
     function initGame() {
-      words = TEXT.split(" ").slice(0, 32);
+      words = INITIAL_WORDS.toSorted(() => Math.random() - 0.5).slice(0, 32);
       currentTime = INITIAL_TIME;
 
       $time.textContent = currentTime;
