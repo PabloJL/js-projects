@@ -27,7 +27,7 @@ export const PROJECTS = [
   },
   {
     slug: "03-typing-game",
-    title: "Typing challenge",
+    title: "Typing Challenge",
     hidden: false,
     description: "Pon a prueba tus habilidades de mecanografía con este reto",
     learnings: [
@@ -42,7 +42,7 @@ export const PROJECTS = [
   },
   {
     slug: "04-chatgpt-local",
-    title: "ChatGPT local",
+    title: "Local ChatGPT",
     hidden: false,
     description: "Usa IA de forma local y gratis. 100% privacidad.",
     learnings: ["Web Workers", "IA", "ESModules"],
