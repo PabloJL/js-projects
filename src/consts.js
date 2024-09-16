@@ -43,7 +43,7 @@ export const PROJECTS = [
   {
     slug: "04-chatgpt-local",
     title: "ChatGPT local",
-    hidden: true,
+    hidden: false,
     description: "Usa IA de forma local y gratis. 100% privacidad.",
     learnings: ["Web Workers", "IA", "ESModules"],
     theme: {
