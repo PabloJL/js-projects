@@ -163,6 +163,55 @@
         }
       }
     </style>
+    <script type="module">
+      import { CreateMLCEngine } from "https://cdn.jsdelivr.net/npm/@mlc-ai/web-llm@0.2.46/+esm";
+      const SELECTED_MODEL = "Llama-3-8B-Instruct-q4f32_1-MLC-1k";
+
+      const $ = (el) => document.querySelector(el);
+
+      // pongo delante de la variable un símbolo de $
+      // para indicar que es un elemento del DOM
+      const $form = $("form");
+      const $input = $("input");
+      const $template = $("#message-template");
+      const $messages = $("ul");
+      const $container = $("main");
+      const $button = $("button");
+      const $info = $("small");
+      const $loading = $(".loading");
+
+      const engine = await CreateMLCEngine(SELECTED_MODEL, {
+        initProgressCallback: (info) => {
+          console.log("initProgessCallback", info);
+        },
+      });
+
+      $form.addEventListener("submit", (e) => {
+        e.preventDefault();
+        const messageText = $input.value.trim();
+
+        if (messageText !== "") {
+          $input.value = "";
+        } else return;
+
+        addMessage(messageText, "user");
+      });
+
+      function addMessage(text, sender) {
+        const clonedTemplate = $template.content.cloneNode(true);
+
+        const $newMessage = clonedTemplate.querySelector(".message");
+        const $who = $newMessage.querySelector("span");
+        const $text = $newMessage.querySelector("p");
+
+        $text.textContent = text;
+        $who.textContent = sender === "bot" ? "GPT" : "You";
+        $newMessage.classList.add(sender);
+
+        $messages.appendChild($newMessage);
+        $container.scrollTop = $container.scrollHeight;
+      }
+    </script>
   </head>
   <body>
     <main>
@@ -174,13 +223,6 @@
         <li class="message user">
           <span>You</span>
           <p>User Response</p>
-        </li>
-        <li class="message user">
-          <span>You</span>
-          <p>
-            Lorem ipsum dolor sit amet, consectetur adipisicing elit. Test
-            response
-          </p>
         </li>
       </ul>
     </main>
