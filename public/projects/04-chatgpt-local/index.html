@@ -165,7 +165,6 @@
     </style>
     <script type="module">
       import { CreateMLCEngine } from "https://cdn.jsdelivr.net/npm/@mlc-ai/web-llm@0.2.46/+esm";
-      const SELECTED_MODEL = "Llama-3-8B-Instruct-q4f32_1-MLC-1k";
 
       const $ = (el) => document.querySelector(el);
 
@@ -180,9 +179,12 @@
       const $info = $("small");
       const $loading = $(".loading");
 
+      const SELECTED_MODEL = "Llama-3-8B-Instruct-q4f32_1-MLC-1k";
+
       const engine = await CreateMLCEngine(SELECTED_MODEL, {
         initProgressCallback: (info) => {
           console.log("initProgessCallback", info);
+          $info.textContent = `${info.text}%`;
         },
       });
 
@@ -230,6 +232,8 @@
       <input placeholder="Write your message here ..." />
       <button>Send</button>
     </form>
+
+    <small>&nbsp;</small>
 
     <template id="message-template">
       <li class="message">
