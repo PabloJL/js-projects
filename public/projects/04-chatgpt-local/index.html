@@ -179,16 +179,21 @@
       const $info = $("small");
       const $loading = $(".loading");
 
+      let messages = [];
+
       const SELECTED_MODEL = "Llama-3-8B-Instruct-q4f32_1-MLC-1k";
 
       const engine = await CreateMLCEngine(SELECTED_MODEL, {
         initProgressCallback: (info) => {
           console.log("initProgessCallback", info);
           $info.textContent = `${info.text}%`;
+          if (info.progress === 1) {
+            $button.removeAttribute("disabled");
+          }
         },
       });
 
-      $form.addEventListener("submit", (e) => {
+      $form.addEventListener("submit", async (e) => {
         e.preventDefault();
         const messageText = $input.value.trim();
 
@@ -197,6 +202,22 @@
         } else return;
 
         addMessage(messageText, "user");
+        $button.setAttribute("disabled", true);
+
+        const userMessage = {
+          role: "user",
+          content: messageText,
+        };
+
+        messages.push(userMessage);
+
+        const reply = await engine.chat.completions.create({
+          messages,
+        });
+
+        const botMessage = reply.choices[0].message.content;
+        messages.push(botMessage);
+        addMessage(botMessage.content, "bot");
       });
 
       function addMessage(text, sender) {
@@ -230,7 +251,7 @@
     </main>
     <form>
       <input placeholder="Write your message here ..." />
-      <button>Send</button>
+      <button disabled>Send</button>
     </form>
 
     <small>&nbsp;</small>
