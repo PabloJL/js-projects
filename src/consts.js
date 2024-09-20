@@ -63,8 +63,8 @@ export const PROJECTS = [
   },
   {
     slug: "06-tetris-canvas",
-    title: "Tetris en Canvas",
-    hidden: true,
+    title: "Tetris in Canvas",
+    hidden: false,
     description:
       "Resolvemos una prueba técnica que te propone crear el Tetris en 40 minutos",
     learnings: ["Canvas", "Eventos de teclado", "Lógica de programación"],
