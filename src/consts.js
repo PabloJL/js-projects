@@ -75,7 +75,7 @@ export const PROJECTS = [
   {
     slug: "07-tier-maker",
     title: "Tier Maker",
-    hidden: true,
+    hidden: false,
     description:
       "Arrastra y suelta las imágenes para crear tus propias listas de niveles",
     learnings: ["Drag & Drop", "Input de imágenes", "CSS Custom Properties"],
