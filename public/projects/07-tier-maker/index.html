@@ -214,9 +214,17 @@
       }
       function handleDragOver(e) {
         e.preventDefault();
-        const { currentTarget } = e;
+        const { currentTarget, dataTransfer } = e;
         if (sourceContainer === currentTarget) return;
         currentTarget.classList.add("drag-over");
+
+        const dragPreview = document.querySelector(".drag-preview");
+
+        if (draggedElement && !dragPreview) {
+          const previewElement = draggedElement.cloneNode(true);
+          previewElement.classList.add("drag-preview");
+          currentTarget.appendChild(previewElement);
+        }
       }
       function handleDragLeave(e) {
         e.preventDefault();
